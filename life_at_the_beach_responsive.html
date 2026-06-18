@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life at the Beach Boutique | Hampton Beach, NH</title>
+    <style>
+        /* CSS Reset & Variable Adjustments */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+            color: #2c3e50;
+            line-height: 1.6;
+            font-size: 11pt;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Master Page Container - Replaced rigid tables with clean block wrappers */
+        .web-page {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 30px 35px;
+            margin: 40px auto;
+            max-width: 900px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid rgba(23, 66, 81, 0.15);
+            
+            /* Page Switching Transitions */
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: none;
+        }
+
+        .web-page.active-page {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header UI Elements */
+        .site-header {
+            text-align: center;
+            border-bottom: 1px solid #113f48;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+        }
+
+        .site-tagline {
+            font-size: 9.5pt;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .site-title {
+            font-size: 28pt;
+            color: #113f48;
+            margin: 0 0 12px 0;
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+
+        /* Flexible Navigation Menu */
+        .nav-bar {
+            text-align: center;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin: 5px 15px;
+            font-size: 11pt;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #535c68;
+            font-weight: bold;
+            text-decoration: none;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active-link {
+            color: #113f48;
+            border-bottom-color: #2b6777;
+        }
+
+        h2 {
+            font-size: 16pt;
+            color: #113f48;
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-weight: normal;
+            border-left: 5px solid #2b6777;
+            padding-left: 12px;
+        }
+
+        /* Fluid Flexbox Alternative Layout (Blocks for pure cross-engine architecture) */
+        .grid-container {
+            display: block;
+            width: 100%;
+        }
+
+        .grid-column {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background-color: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 4px;
+            padding: 22px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+
+        .feature-card h3 {
+            font-size: 13pt;
+            color: #113f48;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .price-tag {
+            font-weight: bold;
+            color: #2b6777;
+            font-size: 12pt;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .site-footer {
+            margin-top: 35px;
+            border-top: 1px solid #dcdde1;
+            padding-top: 18px;
+            text-align: center;
+            font-size: 9.5pt;
+            color: #7f8c8d;
+        }
+
+        .hours-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .hours-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #dcdde1;
+            font-size: 11pt;
+        }
+
+        .hours-list li span {
+            float: right;
+            font-weight: bold;
+            color: #113f48;
+        }
+
+        /* ==========================================================================
+           DESKTOP/TABLET SCREEN ADJUSTMENTS (Widths above 650px side-by-side grids)
+           ========================================================================== */
+        @media screen and (min-width: 651px) {
+            .grid-container {
+                display: table;
+                table-layout: fixed;
+            }
+            .grid-column {
+                display: table-cell;
+                vertical-align: top;
+                padding: 10px;
+                margin-bottom: 0;
+            }
+            .w-50 { width: 50%; }
+            .w-33 { width: 33.33%; }
+        }
+
+        /* Native PDF Compiler overrides to maintain clean sequential printable views */
+        @media print {
+            body { background-image: none; background-color: transparent; }
+            .web-page {
+                display: block !important;
+                opacity: 1 !important;
+                transform: none !important;
+                page-break-after: always !important;
+                margin: 0 0 30px 0 !important;
+                width: 100% !important;
+                box-shadow: none !important;
+            }
+            .web-page:last-child { page-break-after: avoid !important; }
+            .grid-container { display: table !important; }
+            .grid-column { display: table-cell !important; }
+            .w-50 { width: 50% !important; }
+            .w-33 { width: 33.33% !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: HOME PAGE -->
+    <div id="home-page" class="web-page active-page">
+        <div class="site-header">
+            <div class="site-tagline">Coastal Apparel, Gifts & Curiosities</div>
+            <h1 class="site-title">Life at the Beach</h1>
+            <div class="nav-bar">
+                <a onclick="switchTab('home-page')" class="nav-link active-link">Home</a>
+                <a onclick="switchTab('collections-page')" class="nav-link">Our Collections</a>
+                <a onclick="switchTab('essentials-page')" class="nav-link">Beach Essentials</a>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-column w-50" style="padding-right: 15px;">
+                <h2>Welcome to the Boardwalk Oasis</h2>
+                <p>Nestled in the center of historic Hampton Beach, <strong>Life at the Beach</strong> is a thoughtfully curated boutique bringing upscale coastal elegance to the classic New Hampshire shoreline.</p>
+                <p>We invite you to step across our threshold, leave the heavy beach heat behind, and discover an atmosphere celebrating fine craftsmanship, soft seaside textures, and beautiful ocean memories.</p>
+            </div>
+            <div class="grid-column w-50" style="background-color: #fdfdfd; border: 1px solid #eef2f3; border-radius: 6px; padding: 25px;">
+                <h2>Store Location & Hours</h2>
+                <p>📍 <strong>Boutique Address:</strong><br>169 Ocean Blvd, Hampton, NH 03842</p>
+                <p>📞 <strong>Phone:</strong> (603) 929-0333</p>
+                <p style="font-size: 10pt; font-style: italic; color: #7f8c8d;">Perfectly positioned directly opposite the main beach pavilion. Drop in after your walk along the surf!</p>
+            </div>
+        </div>
+
+        <div class="site-footer">
+            &copy; 2026 Life at the Beach Boutique. Fully Responsive Master Template.
+        </div>
+    </div>
+
+
+    <!-- SECTION 2: OUR COLLECTIONS PAGE -->
+    <div id="collections-page" class="web-page">
+        <div class="site-header">
+            <div class="site-tagline">Coastal Apparel, Gifts & Curiosities</div>
+            <h1 class="site-title">Life at the Beach</h1>
+            <div class="nav-bar">
+                <a onclick="switchTab('home-page')" class="nav-link">Home</a>
+                <a onclick="switchTab('collections-page')" class="nav-link active-link">Our Collections</a>
+                <a onclick="switchTab('essentials-page')" class="nav-link">Beach Essentials</a>
+            </div>
+        </div>
+
+        <h2>Our Curated Collections</h2>
+        <p style="margin-bottom: 25px;">We move past typical plastic keepsakes to offer authentic, high-quality regional items designed to fit seamlessly into elegant beach homes and wardrobes.</p>
+
+        <div class="grid-container">
+            <div class="grid-column w-33">
+                <div class="feature-card">
+                    <h3>Seaside Apparel</h3>
+                    <p>Relaxed linen tunics, premium knit cardigans, and ultra-plush custom Hampton Beach hoodies tailored for breezy evenings by the tide.</p>
+                </div>
+            </div>
+            <div class="grid-column w-33">
+                <div class="feature-card">
+                    <h3>Artisan Keepsakes</h3>
+                    <p>Hand-crafted ornaments, bespoke sterling silver anchor jewelry, and local artwork curated from creators across the New England seacoast.</p>
+                </div>
+            </div>
+            <div class="grid-column w-33">
+                <div class="feature-card">
+                    <h3>Coastal Home Décor</h3>
+                    <p>Hand-poured soy beach wax candles, drift-wood accent pieces, and maritime-toned throws designed to bring the Atlantic mood inland.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-footer">
+            &copy; 2026 Life at the Beach Boutique. Authentic Local Artistry.
+        </div>
+    </div>
+
+
+    <!-- SECTION 3: BEACH ESSENTIALS PAGE -->
+    <div id="essentials-page" class="web-page">
+        <div class="site-header">
+            <div class="site-tagline">Coastal Apparel, Gifts & Curiosities</div>
+            <h1 class="site-title">Life at the Beach</h1>
+            <div class="nav-bar">
+                <a onclick="switchTab('home-page')" class="nav-link">Home</a>
+                <a onclick="switchTab('collections-page')" class="nav-link">Our Collections</a>
+                <a onclick="switchTab('essentials-page')" class="nav-link active-link">Beach Essentials</a>
+            </div>
+        </div>
+
+        <h2>Summer Beach Essentials</h2>
+        <p style="margin-bottom: 25px;">Premium accessories curated to heighten your comfort, style, and leisure during your sunny afternoon along the Hampton coastline.</p>
+
+        <div class="grid-container">
+            <div class="grid-column w-50">
+                <div class="feature-card">
+                    <h3>The Oversized Turkish Seaside Towel</h3>
+                    <p>Woven from 100% long-staple organic cotton. Exceptionally lightweight, highly absorbent, sand-resistant, and dries rapidly between dips in the ocean.</p>
+                    <span class="price-tag">$38.00</span>
+                </div>
+                <div class="feature-card">
+                    <h3>Handwoven Straw Beach Tote</h3>
+                    <p>Features durable double-stitched leather handles and a fully lined interior with protective pockets for your keys and sun protection.</p>
+                    <span class="price-tag">$45.00</span>
+                </div>
+            </div>
+            <div class="grid-column w-50" style="background-color: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #e1e8ed;">
+                <h2>Boutique Weekly Hours</h2>
+                <ul class="hours-list">
+                    <li>Monday <span>10:00 AM - 8:00 PM</span></li>
+                    <li>Tuesday <span>10:00 AM - 8:00 PM</span></li>
+                    <li>Wednesday <span>10:00 AM - 8:00 PM</span></li>
+                    <li>Thursday <span>10:00 AM - 8:00 PM</span></li>
+                    <li>Friday <span>10:00 AM - 8:00 PM</span></li>
+                    <li>Saturday <span>10:00 AM - 8:00 PM</span></li>
+                    <li>Sunday <span>10:00 AM - 6:00 PM</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="site-footer">
+            &copy; 2026 Life at the Beach Boutique. Curating perfect coastal moments.
+        </div>
+    </div>
+
+    <script>
+        function switchTab(targetPageId) {
+            const pages = document.querySelectorAll('.web-page');
+            const links = document.querySelectorAll('.nav-link');
+            
+            pages.forEach(page => page.classList.remove('active-page'));
+            links.forEach(link => {
+                link.classList.remove('active-link');
+                if(link.getAttribute('onclick').includes(targetPageId)) {
+                    link.classList.add('active-link');
+                }
+            });
+            
+            const activeTarget = document.getElementById(targetPageId);
+            activeTarget.classList.add('active-page');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
