@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tibet Boutique | Hampton Beach, NH</title>
+    <style>
+        /* CSS Reset & Variables */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /* Using standard elegant cursive/serif fonts suited to a bohemian theme */
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #3e2723; /* Warm earthy dark brown */
+            line-height: 1.6;
+            font-size: 11pt;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Master Page Container with a frosted soft-cream boho card overlay */
+        .web-page {
+            background-color: rgba(253, 251, 247, 0.96);
+            border-radius: 12px;
+            padding: 30px 35px;
+            margin: 40px auto;
+            max-width: 900px;
+            width: 92%;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+            border: 1px solid rgba(184, 134, 11, 0.2); /* Soft gold-tinted amber border */
+            
+            /* Fluid multi-page fade-in and slide translation animations */
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            display: none;
+        }
+
+        .web-page.active-page {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header UI Elements */
+        .site-header {
+            text-align: center;
+            border-bottom: 2px double #b8860b; /* Elegant double line signature border */
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .site-tagline {
+            font-size: 9.5pt;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #8d6e63;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .site-title {
+            font-size: 30pt;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #5d4037;
+            margin: 0 0 10px 0;
+            font-weight: normal;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+
+        /* Flexible Navigation Menu */
+        .nav-bar {
+            text-align: center;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin: 5px 15px;
+            font-size: 11pt;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #7f5a4e;
+            font-weight: bold;
+            text-decoration: none;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active-link {
+            color: #3e2723;
+            border-bottom-color: #b8860b;
+        }
+
+        h2 {
+            font-size: 17pt;
+            color: #5d4037;
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-weight: normal;
+            border-left: 4px solid #b8860b;
+            padding-left: 12px;
+            font-style: italic;
+        }
+
+        /* Fluid Flexbox Alternative Layout (Blocks for absolute mobile compatibility) */
+        .grid-container {
+            display: block;
+            width: 100%;
+        }
+
+        .grid-column {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Bohemian Style Feature Cards */
+        .feature-card {
+            background-color: #ffffff;
+            border: 1px solid #f1e9db;
+            border-radius: 6px;
+            padding: 22px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(93, 64, 55, 0.03);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(93, 64, 55, 0.08);
+            border-color: #e5c158;
+        }
+
+        .feature-card h3 {
+            font-size: 13.5pt;
+            color: #5d4037;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        .price-tag {
+            font-weight: bold;
+            color: #b8860b;
+            font-size: 11.5pt;
+            margin-top: 10px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .site-footer {
+            margin-top: 35px;
+            border-top: 1px solid #f1e9db;
+            padding-top: 18px;
+            text-align: center;
+            font-size: 9.5pt;
+            color: #a1887f;
+            letter-spacing: 1px;
+        }
+
+        .hours-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .hours-list li {
+            padding: 9px 0;
+            border-bottom: 1px dashed #f1e9db;
+            font-size: 11pt;
+        }
+
+        .hours-list li span {
+            float: right;
+            font-weight: bold;
+            color: #5d4037;
+        }
+
+        /* ==========================================================================
+           DESKTOP/TABLET SCREEN ADJUSTMENTS (Widths above 650px side-by-side grids)
+           ========================================================================== */
+        @media screen and (min-width: 651px) {
+            .grid-container {
+                display: table;
+                table-layout: fixed;
+            }
+            .grid-column {
+                display: table-cell;
+                vertical-align: top;
+                padding: 10px;
+                margin-bottom: 0;
+            }
+            .w-50 { width: 50%; }
+            .w-33 { width: 33.33%; }
+        }
+
+        /* Native PDF Compiler overrides to maintain clean sequential printable views */
+        @media print {
+            body { background-image: none; background-color: transparent; }
+            .web-page {
+                display: block !important;
+                opacity: 1 !important;
+                transform: none !important;
+                page-break-after: always !important;
+                margin: 0 0 30px 0 !important;
+                width: 100% !important;
+                box-shadow: none !important;
+            }
+            .web-page:last-child { page-break-after: avoid !important; }
+            .grid-container { display: table !important; }
+            .grid-column { display: table-cell !important; }
+            .w-50 { width: 50% !important; }
+            .w-33 { width: 33.33% !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: HOME PAGE -->
+    <div id="home-page" class="web-page active-page">
+        <div class="site-header">
+            <div class="site-tagline">Global Textiles, Imports & Handcrafted Silver</div>
+            <h1 class="site-title">Tibet Boutique</h1>
+            <div class="nav-bar">
+                <a onclick="switchTab('home-page')" class="nav-link active-link">The Sanctuary</a>
+                <a onclick="switchTab('collections-page')" class="nav-link">Our Collections</a>
+                <a onclick="switchTab('essentials-page')" class="nav-link">Artisanal Wares</a>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-column w-50" style="padding-right: 15px;">
+                <h2>Welcome to Our Haven</h2>
+                <p>Located right along the spirited boardwalk of Hampton Beach, <strong>Tibet Boutique</strong> serves as an eclectic escape from the everyday. We travel across borders to source unique textiles, intricate casual wear, and global treasures that feed the bohemian spirit.</p>
+                <p>Whether you seek the soft feel of traditional woven threads or the soulful alignment of gemstone silver jewelry, find your peace inside our oceanside boutique.</p>
+            </div>
+            <div class="grid-column w-50" style="background-color: #faf6f0; border: 1px solid #f1e9db; border-radius: 6px; padding: 25px;">
+                <h2>Find Us by the Coast</h2>
+                <p>📍 <strong>Boutique Location:</strong><br>245 Ocean Blvd, Hampton, NH 03842</p>
+                <p>✨ <strong>A Peaceful Alternative:</strong><br>Step right out of the boardwalk sand and find a curated treasure map of peace, incense, and timeless coastal styling.</p>
+            </div>
+        </div>
+
+        <div class="site-footer">
+            &copy; 2026 Tibet Boutique. Perfectly optimized for Desktop & Mobile views.
+        </div>
+    </div>
+
+
+    <!-- SECTION 2: OUR COLLECTIONS PAGE -->
+    <div id="collections-page" class="web-page">
+        <div class="site-header">
+            <div class="site-tagline">Global Textiles, Imports & Handcrafted Silver</div>
+            <h1 class="site-title">Tibet Boutique</h1>
+            <div class="nav-bar">
+                <a onclick="switchTab('home-page')" class="nav-link">The Sanctuary</a>
+                <a onclick="switchTab('collections-page')" class="nav-link active-link">Our Collections</a>
+                <a onclick="switchTab('essentials-page')" class="nav-link">Artisanal Wares</a>
+            </div>
+        </div>
+
+        <h2>Curated Global Treasures</h2>
+        <p style="margin-bottom: 25px;">Every item inside our boutique has a narrative. We curate high-quality global craftsmanship that transitions beautifully from the beach layout to relaxed lifestyle wear.</p>
+
+        <div class="grid-container">
+            <div class="grid-column w-33">
+                <div class="feature-card">
+                    <h3>Bohemian Garments</h3>
+                    <p>Breezy cotton wraps, flowing hand-dyed maxi skirts, patchwork beach trousers, and embroidered kimonos made for carefree sunny days.</p>
+                </div>
+            </div>
+            <div class="grid-column w-33">
+                <div class="feature-card">
+                    <h3>Handcrafted Silver</h3>
+                    <p>Bespoke earrings, spiritual rings, and statement necklaces highlighting genuine raw stones like turquoise, moonstone, and deep amber.</p>
+                </div>
+            </div>
+            <div class="grid-column w-33">
+                <div class="feature-card">
+                    <h3>Global Textiles</h3>
+                    <p>Intricate wall tapestries, hand-woven meditation mats, and brightly colored throws sourced directly from local international weaving hubs.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-footer">
+            &copy; 2026 Tibet Boutique. Supporting Artisan Craft Across the Globe.
+        </div>
+    </div>
+
+
+    <!-- SECTION 3: ARTISANAL WARES / ESSENTIALS PAGE -->
+    <div id="essentials-page" class="web-page">
+        <div class="site-header">
+            <div class="site-tagline">Global Textiles, Imports & Handcrafted Silver</div>
+            <h1 class="site-title">Tibet Boutique</h1>
+            <div class="nav-bar">
+                <a onclick="switchTab('home-page')" class="nav-link">The Sanctuary</a>
+                <a onclick="switchTab('collections-page')" class="nav-link">Our Collections</a>
+                <a onclick="switchTab('essentials-page')" class="nav-link active-link">Artisanal Wares</a>
+            </div>
+        </div>
+
+        <h2>Artisanal Wares</h2>
+        <p style="margin-bottom: 25px;">Infuse your life with intentional items designed to cultivate peaceful spaces, meditative moments, and distinct wardrobe styles.</p>
+
+        <div class="grid-container">
+            <div class="grid-column w-50">
+                <div class="feature-card">
+                    <h3>Authentic Singing Bowls</h3>
+                    <p>Hand-hammered alloy resonance bowls calibrated for rich harmonic tones, stress relief, and mindful sound-cleansing rituals.</p>
+                    <span class="price-tag">From $42.00</span>
+                </div>
+                <div class="feature-card">
+                    <h3>Natural Fine Incense Sets</h3>
+                    <p>Earthy sets featuring raw nag champa, pure cedar, white sage wood ropes, and elegant hand-carved soapstone burners.</p>
+                    <span class="price-tag">$14.00</span>
+                </div>
+            </div>
+            <div class="grid-column w-50" style="background-color: #faf6f0; padding: 20px; border-radius: 6px; border: 1px solid #f1e9db;">
+                <h2>Boutique Sanctuary Hours</h2>
+                <ul class="hours-list">
+                    <li>Monday <span>10:30 AM - 7:30 PM</span></li>
+                    <li>Tuesday <span>10:30 AM - 7:30 PM</span></li>
+                    <li>Wednesday <span>10:30 AM - 7:30 PM</span></li>
+                    <li>Thursday <span>10:30 AM - 7:30 PM</span></li>
+                    <li>Friday <span>10:00 AM - 8:30 PM</span></li>
+                    <li>Saturday <span>10:00 AM - 8:30 PM</span></li>
+                    <li>Sunday <span>11:00 AM - 6:00 PM</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="site-footer">
+            &copy; 2026 Tibet Boutique. Hand-selected quality, down by the shore.
+        </div>
+    </div>
+
+    <script>
+        function switchTab(targetPageId) {
+            const pages = document.querySelectorAll('.web-page');
+            const links = document.querySelectorAll('.nav-link');
+            
+            pages.forEach(page => page.classList.remove('active-page'));
+            links.forEach(link => {
+                link.classList.remove('active-link');
+                if(link.getAttribute('onclick').includes(targetPageId)) {
+                    link.classList.add('active-link');
+                }
+            });
+            
+            const activeTarget = document.getElementById(targetPageId);
+            activeTarget.classList.add('active-page');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
