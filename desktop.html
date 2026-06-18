@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Life at the Beach Boutique | Hampton Beach, NH</title>
+    <script type="text/javascript">
+    // Auto-detect phone screen dimension thresholds on startup
+    if (window.innerWidth <= 650 || navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
+        window.location.href = "mobile.html"; // Target location path for phone users
+    }
+</script>
     <style>
         /* CSS Reset & Variables */
         *, *::before, *::after {
